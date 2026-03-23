@@ -17,7 +17,7 @@ namespace HospitalProyect.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "9.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -55,7 +55,7 @@ namespace HospitalProyect.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("specialtyCategoryModel");
+                    b.ToTable("staffCategoryModel");
                 });
 
             modelBuilder.Entity("HospitalProyect.Models.StaffModel", b =>
@@ -102,7 +102,7 @@ namespace HospitalProyect.Migrations
 
                     b.HasIndex("StaffCategoryId");
 
-                    b.ToTable("Staff");
+                    b.ToTable("staffModel");
                 });
 
             modelBuilder.Entity("HospitalProyect.Models.StaffModel", b =>

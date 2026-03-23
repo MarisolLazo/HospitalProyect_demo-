@@ -12,19 +12,6 @@ namespace HospitalProyect.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "specialtyCategoryModel",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_specialtyCategoryModel", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "specialtyModel",
                 columns: table => new
                 {
@@ -38,7 +25,20 @@ namespace HospitalProyect.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Staff",
+                name: "staffCategoryModel",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_staffCategoryModel", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "staffModel",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -54,29 +54,29 @@ namespace HospitalProyect.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Staff", x => x.Id);
+                    table.PrimaryKey("PK_staffModel", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Staff_specialtyCategoryModel_StaffCategoryId",
-                        column: x => x.StaffCategoryId,
-                        principalTable: "specialtyCategoryModel",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Staff_specialtyModel_SpecialtyId",
+                        name: "FK_staffModel_specialtyModel_SpecialtyId",
                         column: x => x.SpecialtyId,
                         principalTable: "specialtyModel",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_staffModel_staffCategoryModel_StaffCategoryId",
+                        column: x => x.StaffCategoryId,
+                        principalTable: "staffCategoryModel",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Staff_SpecialtyId",
-                table: "Staff",
+                name: "IX_staffModel_SpecialtyId",
+                table: "staffModel",
                 column: "SpecialtyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Staff_StaffCategoryId",
-                table: "Staff",
+                name: "IX_staffModel_StaffCategoryId",
+                table: "staffModel",
                 column: "StaffCategoryId");
         }
 
@@ -84,13 +84,13 @@ namespace HospitalProyect.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Staff");
-
-            migrationBuilder.DropTable(
-                name: "specialtyCategoryModel");
+                name: "staffModel");
 
             migrationBuilder.DropTable(
                 name: "specialtyModel");
+
+            migrationBuilder.DropTable(
+                name: "staffCategoryModel");
         }
     }
 }
