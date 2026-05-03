@@ -1,5 +1,6 @@
 using HospitalProyect.Data;
 using HospitalProyect.Repositories;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,19 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<SpecialtyRepository>();
 builder.Services.AddScoped<StaffCategoryRepository>();
 builder.Services.AddScoped<StaffRepository>();
+builder.Services.AddScoped<AuthRepository>();
+builder.Services.AddScoped<DashboardRepository>();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(
+        options =>
+            {
+                options.LoginPath = "/Auth/Login";
+                options.LogoutPath = "/Auth/Logout";
+                options.AccessDeniedPath = "/Auth/Login";
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+			}
+	);
 
 var app = builder.Build();
 
@@ -27,10 +41,12 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Auth}/{action=Login}/{id?}");
 
 app.Run();
